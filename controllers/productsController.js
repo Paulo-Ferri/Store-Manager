@@ -1,9 +1,11 @@
 const express = require('express');
+const productModel = require('../models/productModel');
 
 const router = express.Router();
 
-router.get('/', (_req, res) => {
-  res.status(200).send('products');
+router.get('/', async (_req, res) => {
+  const [allCharacters] = await productModel.getAll();
+  res.status(200).json(allCharacters);
 });
 
 module.exports = router;
