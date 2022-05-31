@@ -1,3 +1,4 @@
+const salesModel = require('../models/salesModel');
 
 const getAll = (id = null) => {
   if (id) return salesModel.getById(id);
