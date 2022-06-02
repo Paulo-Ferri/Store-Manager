@@ -23,4 +23,12 @@ router.post('/', productMiddlewares.checkProductNameAndQuantity, async (req, res
   return res.status(status).json({ message });
 });
 
+router.put('/:id', productMiddlewares.checkProductNameAndQuantity, async (req, res) => {
+  const { id } = req.params;
+  const { name, quantity } = req.body;
+  const { status, message } = await productsService.changeProduct(name, quantity, id);
+  if (message === 'Product not found') return res.status(status).json({ message });
+  return res.status(status).json(message);
+});
+
 module.exports = router;

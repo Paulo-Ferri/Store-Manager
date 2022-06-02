@@ -19,4 +19,5 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', salesMiddleware.checkProductIdAndQuantity);
 
+router.put('/:id', salesMiddleware.checkProductIdAndQuantity);
 module.exports = router;
