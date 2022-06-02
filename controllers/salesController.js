@@ -1,5 +1,6 @@
 const express = require('express');
 const salesService = require('../services/salesService');
+const salesMiddleware = require('../middlewares/salesMiddleware');
 
 const router = express.Router();
 
@@ -15,5 +16,7 @@ router.get('/:id', async (req, res) => {
   if (message.length === 1) return res.status(status).json(...message);
   return res.status(status).json(message);
 });
+
+router.post('/', salesMiddleware.checkProductIdAndQuantity);
 
 module.exports = router;
