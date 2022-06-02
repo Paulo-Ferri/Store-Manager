@@ -15,4 +15,11 @@ router.get('/:id', async (req, res) => {
   return res.status(200).json(...productById);
 });
 
+router.post('/', async (req, res) => {
+  const { name, quantity } = req.body;
+  const { message, status, productRegistred } = await productsService.createProduct(name, quantity);
+  if (productRegistred) return res.status(status).json(productRegistred);
+  return res.status(status).json({ message });
+});
+
 module.exports = router;
