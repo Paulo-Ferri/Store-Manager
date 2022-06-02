@@ -4,15 +4,16 @@ const salesService = require('../services/salesService');
 const router = express.Router();
 
 router.get('/', async (_req, res) => {
-  const allSales = await salesService.getAll();
-  res.status(200).json(allSales);
+  const { status, message } = await salesService.getAll();
+  res.status(status).json(message);
 });
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  const salesById = await salesService.getAll(id);
-  if (!salesById.length) return res.status(404).json({ message: 'Sale not found' });
-  return res.status(200).json(salesById);
+  const { status, message } = await salesService.getAll(id);
+  if (message === 'Sale not found') return res.status(status).json({ message });
+  if (message.length === 1) return res.status(status).json(...message);
+  return res.status(status).json(message);
 });
 
 module.exports = router;
