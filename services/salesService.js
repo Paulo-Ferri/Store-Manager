@@ -21,8 +21,19 @@ const getAll = async (id = null) => {
   };
 };
 
-const createSale = async (productId, quantity) => {
-  await salesModel.createSale(productId, quantity);
+const createSale = async (sales) => {
+  const saleId = await salesModel.getNewSaleId();
+  const productsAndQuantities = [];
+  sales.forEach(async ({ productId, quantity }) => {
+    await salesModel.createNewSale(saleId, productId, quantity);
+  });
+  sales.forEach(({ productId, quantity }) => {
+    productsAndQuantities.push({ productId, quantity });
+  });
+  return {
+    id: saleId,
+    productsAndQuantities,
+  };
 };
 
 module.exports = {

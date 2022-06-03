@@ -17,18 +17,14 @@ router.get('/:id', async (req, res) => {
   return res.status(status).json(message);
 });
 
-router.post('/', salesMiddleware.checkProductIdAndQuantity, (req, res) => {
+router.post('/', salesMiddleware.checkProductIdAndQuantity, async (req, res) => {
   const sales = req.body;
-  const itemsSold = [];
-  sales.forEach(({ productId, quantity }) => {
-    salesService.createSale(productId, quantity);
-    itemsSold.push({ productId, quantity });
-  });
-  return res.status(201).json({
-    id: 1,
-    itemsSold,
-  });
+  const { id, productsAndQuantities } = await salesService.createSale(sales);
+  return res.status(201).json({ id, itemsSold: productsAndQuantities });
 });
 
-router.put('/:id', salesMiddleware.checkProductIdAndQuantity);
+router.put('/:id', salesMiddleware.checkProductIdAndQuantity, (_req, _res) => {
+  // const { id } = req.params;
+  
+});
 module.exports = router;

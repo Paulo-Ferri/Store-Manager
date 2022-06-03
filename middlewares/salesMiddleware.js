@@ -8,8 +8,8 @@ const checkProductIdAndQuantity = (req, res, next) => {
     if (!quantity) {
       return res.status(400).json({ message: '"quantity" is required' });
     }
-    return next();
   });
+  return next();
 };
 
 module.exports = {
