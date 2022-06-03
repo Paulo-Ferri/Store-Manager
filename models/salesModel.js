@@ -33,6 +33,13 @@ const getById = async (id) => {
   return serializeById(salesById);
 };
 
+const getSaleProductsById = async (id) => {
+  const query = `SELECT * FROM StoreManager.sales_products
+  WHERE sale_id = ?`;
+  const [result] = await connection.execute(query, [id]);
+  return result;
+};
+
 const getNewSaleId = async () => {
   const querySale = 'INSERT INTO StoreManager.sales (date) VALUES (NOW());';
   const [{ insertId }] = await connection.execute(querySale);
@@ -45,9 +52,18 @@ const createNewSale = async (saleId, productId, quantity) => {
   await connection.execute(querySaleProducts, [saleId, productId, quantity]);
 };
 
+const modifyById = async (productId, quantity, id) => {
+  const query = `UPDATE StoreManager.sales_products
+  SET product_id = ?, quantity = ?
+  WHERE sale_id = ?`;
+  await connection.execute(query, [productId, quantity, id]);
+};
+
 module.exports = {
   getAll,
   getById,
   getNewSaleId,
   createNewSale,
+  modifyById,
+  getSaleProductsById,
 };

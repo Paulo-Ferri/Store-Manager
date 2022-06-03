@@ -13,7 +13,6 @@ router.get('/:id', async (req, res) => {
   const { id } = req.params;
   const { status, message } = await salesService.getAll(id);
   if (message === 'Sale not found') return res.status(status).json({ message });
-  if (message.length === 1) return res.status(status).json(...message);
   return res.status(status).json(message);
 });
 
@@ -23,8 +22,10 @@ router.post('/', salesMiddleware.checkProductIdAndQuantity, async (req, res) => 
   return res.status(201).json({ id, itemsSold: productsAndQuantities });
 });
 
-router.put('/:id', salesMiddleware.checkProductIdAndQuantity, (_req, _res) => {
-  // const { id } = req.params;
-  
+router.put('/:id', salesMiddleware.checkProductIdAndQuantity, async (req, res) => {
+  const { id } = req.params;
+  const [{ productId, quantity }] = req.body;
+  const { status, message } = await salesService.changeSale(productId, quantity, id);
+  return res.status(status).json(message);
 });
 module.exports = router;

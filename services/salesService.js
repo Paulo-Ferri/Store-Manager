@@ -36,7 +36,23 @@ const createSale = async (sales) => {
   };
 };
 
+const changeSale = async (productId, quantity, id) => {
+  await salesModel.modifyById(productId, quantity, id);
+  return {
+    status: 200,
+    message: {
+      saleId: +id,
+      itemUpdated: [
+        {
+          productId, quantity,
+        },
+      ],
+    },
+  };
+};
+
 module.exports = {
   getAll,
   createSale,
+  changeSale,
 };
