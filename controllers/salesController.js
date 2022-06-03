@@ -17,7 +17,18 @@ router.get('/:id', async (req, res) => {
   return res.status(status).json(message);
 });
 
-router.post('/', salesMiddleware.checkProductIdAndQuantity);
+router.post('/', salesMiddleware.checkProductIdAndQuantity, (req, res) => {
+  const sales = req.body;
+  const itemsSold = [];
+  sales.forEach(({ productId, quantity }) => {
+    salesService.createSale(productId, quantity);
+    itemsSold.push({ productId, quantity });
+  });
+  return res.status(201).json({
+    id: 1,
+    itemsSold,
+  });
+});
 
 router.put('/:id', salesMiddleware.checkProductIdAndQuantity);
 module.exports = router;
