@@ -31,4 +31,11 @@ router.put('/:id', productMiddlewares.checkProductNameAndQuantity, async (req, r
   return res.status(status).json(message);
 });
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { status, message } = await productsService.deleteProduct(id);
+  if (status === 404) return res.status(status).json({ message });
+  return res.status(status).send('ok');
+});
+
 module.exports = router;
