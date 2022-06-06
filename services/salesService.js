@@ -6,7 +6,7 @@ const getAll = async (id = null) => {
     if (!saleById.length) {
       return {
         status: 404,
-        message: 'Sale not found',
+        response: 'Sale not found',
       };
     }
     return {
