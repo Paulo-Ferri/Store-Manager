@@ -19,6 +19,7 @@ const getAll = async () => {
   const query = `SELECT s.id, s.date, sp.product_id, sp.quantity FROM sales as s
   JOIN StoreManager.sales_products as sp ON s.id = sp.sale_id`;
   const [allSales] = await connection.execute(query);
+  if (!allSales.length) return [];
   return serialize(allSales);
 };
 
@@ -30,6 +31,7 @@ const getById = async (id) => {
   ON p.id = sp.product_id
   WHERE sp.sale_id = ?`;
   const [salesById] = await connection.execute(query, [id]);
+  if (!salesById.length) return [];
   return serializeById(salesById);
 };
 
