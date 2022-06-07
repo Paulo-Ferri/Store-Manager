@@ -22,9 +22,8 @@ describe('It is possible to get all the products', () => {
         name: "Escudo do Capitão América",
         quantity: 30
     }
-]
+  ];
   before(() => {
-    request.body = {};
     response.status = sinon.stub().returns(response);
     response.json = sinon.stub().returns();
     sinon.stub(productsService, 'getAll').resolves(allProducts);
@@ -35,7 +34,7 @@ describe('It is possible to get all the products', () => {
   });
 
   it('Should be called with response code 200', async () => {
-    await productsController.get('/', request, response);
-    expect(response.status.calledWith(200)).to.be.true;
+    await productsController.getAll(request, response);
+    expect(response.status.calledWith(200)).to.be.equal(true);
   })
 });
