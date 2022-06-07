@@ -21,7 +21,7 @@ describe('It is possible to get all the products', () => {
         id: 3,
         name: "Escudo do Capitão América",
         quantity: 30
-    }
+    },
   ];
   before(() => {
     response.status = sinon.stub().returns(response);
@@ -71,7 +71,7 @@ describe('It is possible to get one product by the id', () => {
   });
 
   it('Should return an object', async () => {
-    await productsController.getAll(request, response);
+    await productsController.getById(request, response);
     expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
   });
 });
@@ -86,11 +86,11 @@ describe('It is possible to create a new product', () => {
     response.json = sinon.stub().returns();
     sinon.stub(productsService, 'createProduct').resolves({
       status: 201,
-        productRegistred: {
-          id: 1,
-          name: 'testProduct',
-          quantity: 10,
-      }
+      productRegistred: {
+        id: 1,
+        name: 'testProduct',
+        quantity: 10,
+      },
     });
   });
 
