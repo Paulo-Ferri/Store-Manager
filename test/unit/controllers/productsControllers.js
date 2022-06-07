@@ -134,3 +134,23 @@ describe('It is possible to modify one product by the id', () => {
     expect(response.status.calledWith(200)).to.be.equal(true);
   })
 });
+
+describe('It is possible to delete one product by the id', () => {
+  const request = {};
+  const response = {};
+  before(() => {
+    request.params = { id: 1 }
+    response.status = sinon.stub().returns(response);
+    response.send = sinon.stub().returns('ok');
+    sinon.stub(productsService, 'deleteProduct').resolves({status: 204})
+  });
+
+  after(() => {
+    productsService.deleteProduct.restore();
+  });
+
+  it('Should return status code 204', async () => {
+    await productsController.deleteProduct(request, response);
+    expect(response.status.calledWith(204)).to.be.equal(true);
+  })
+})
