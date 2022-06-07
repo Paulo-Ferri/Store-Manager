@@ -2,10 +2,7 @@ const productsModel = require('../models/productsModel');
 
 const getAll = async () => {
   const [allProducts] = await productsModel.getAll();
-  return {
-    status: 200,
-    message: allProducts,
-  };
+  return allProducts;
 };
 
 const getById = async (id) => {

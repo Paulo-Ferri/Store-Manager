@@ -36,5 +36,101 @@ describe('It is possible to get all the products', () => {
   it('Should be called with response code 200', async () => {
     await productsController.getAll(request, response);
     expect(response.status.calledWith(200)).to.be.equal(true);
+  });
+
+  it('Should return an array', async () => {
+    await productsController.getAll(request, response);
+    expect(response.json.calledWith(sinon.match.array)).to.be.equal(true);
+  });
+
+});
+
+describe('It is possible to get one product by the id', () => {
+  const request = {};
+  const response = {};
+
+  const productById = [{
+    id: 1,
+    name: "Martelo de Thor",
+    quantity: 10
+  }];
+  before(() => {
+    request.params = { id: 1 };
+    response.status = sinon.stub().returns(response);
+    response.json = sinon.stub().returns();
+    sinon.stub(productsService, 'getById').resolves({status: 200, message: productById});
+  });
+
+  after(() => {
+    productsService.getById.restore();
+  });
+
+  it('Should be called with response code 200', async () => {
+    await productsController.getById(request, response);
+    expect(response.status.calledWith(200)).to.be.equal(true);
+  });
+
+  it('Should return an object', async () => {
+    await productsController.getAll(request, response);
+    expect(response.json.calledWith(sinon.match.object)).to.be.equal(true);
+  });
+});
+
+describe('It is possible to create a new product', () => {
+  const request = {};
+  const response = {};
+
+  before(() => {
+    request.body = { name: "testProduct", quantity: 10 };
+    response.status = sinon.stub().returns(response);
+    response.json = sinon.stub().returns();
+    sinon.stub(productsService, 'createProduct').resolves({
+      status: 201,
+        productRegistred: {
+          id: 1,
+          name: 'testProduct',
+          quantity: 10,
+      }
+    });
+  });
+
+  after(() => {
+    productsService.createProduct.restore();
+  });
+
+  it('Should be called with response code 201', async () => {
+    await productsController.createProduct(request, response);
+    expect(response.status.calledWith(201)).to.be.equal(true);
+  })
+});
+
+describe('It is possible to modify one product by the id', () => {
+  const request = {};
+  const response = {};
+
+  before(() => {
+    request.params = { id: 1 }
+    request.body = { name: "testProduct", quantity: 10 };
+    response.status = sinon.stub().returns(response);
+    response.json = sinon.stub().returns();
+    sinon.stub(productsService, 'changeProduct').resolves(
+      {
+      status: 200,
+      message: {
+        id: 1,
+        name: "testProduct",
+        quantity: 10
+      }
+     }
+    );
+  });
+
+  after(() => {
+    productsService.changeProduct.restore();
+  });
+
+  it('Should be called with response 200', async () => {
+    await productsController.modify(request, response);
+    expect(response.status.calledWith(200)).to.be.equal(true);
   })
 });

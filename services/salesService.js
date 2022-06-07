@@ -1,20 +1,21 @@
 const salesModel = require('../models/salesModel');
 
-const getAll = async (id = null) => {
-  if (id) {
-    const saleById = await salesModel.getById(id);
-    if (!saleById.length) {
-      return {
-        status: 404,
-        message: 'Sale not found',
-      };
-    }
+const getAll = async () => {
+  const sales = await salesModel.getAll();
+  return {
+    status: 200,
+    message: sales,
+  };
+};
+
+const getById = async (id) => {
+  const salesById = await salesModel.getById(id);
+  if (!salesById.length) {
     return {
-      status: 200,
-      message: saleById,
+      status: 404,
+      message: 'Sale not found',
     };
   }
-  const salesById = await salesModel.getAll();
   return {
     status: 200,
     message: salesById,
@@ -55,4 +56,5 @@ module.exports = {
   getAll,
   createSale,
   changeSale,
+  getById,
 };

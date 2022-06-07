@@ -2,7 +2,8 @@ const connection = require('../db');
 
 const getAll = () => connection.execute('SELECT * FROM StoreManager.products');
 
-const getById = (id) => connection
+const getById = (id) => 
+connection
 .execute('SELECT * FROM StoreManager.products WHERE id = ?', [id]);
 
 const getByName = async (productName) => {
