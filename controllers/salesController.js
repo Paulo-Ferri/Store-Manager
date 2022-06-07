@@ -9,7 +9,6 @@ const getById = async (req, res) => {
   const { id } = req.params;
   const { status, message } = await salesService.getById(id);
   if (message === 'Sale not found') return res.status(status).json({ message });
-  console.log('message:', message);
   return res.status(status).json(message);
 };
 

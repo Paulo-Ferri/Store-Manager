@@ -80,3 +80,16 @@ describe('It is possible to get all the sales by the id', () => {
   });
 });
 
+describe('It is possible to modify one sale by the id', () => {
+  before(() => {
+    sinon.stub(salesModel, 'modifyById').resolves([])
+  });
+  after(() => {
+    salesModel.modifyById.restore();
+  });
+
+  it('Should return status code 200', async () => {
+    const {status} = await salesService.changeSale(1, 10, 1);
+    expect(status).to.be.equals(200);
+  })
+})
